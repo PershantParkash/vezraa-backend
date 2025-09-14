@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    container_name: nest-backend
+    restart: always
+    env_file: .env   # 👈 this is enough, no need to override below
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: kamaltalreja
+      POSTGRES_PASSWORD: vezraa
+      POSTGRES_DB: VezraaDB
+    ports:
+      - "5433:5432"   # host:container (5433 outside, 5432 inside)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
